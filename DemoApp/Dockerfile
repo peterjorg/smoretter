@@ -13,4 +13,4 @@ WORKDIR /src/DemoApp
 EXPOSE 3000
 
 # Run nodemon to monitor for app changes. 
-CMD nodemon 
+CMD nodemon app.js 
