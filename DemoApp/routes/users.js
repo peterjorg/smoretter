@@ -3,7 +3,14 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  
+    var redisClient = req.app.get('redisClient');
+  redisClient.set('KEY', "SampleValue!!");
+ 
+  redisClient.get('KEY', function(err, reply) {
+   res.send('from redis: ' + reply);
+});
+ 
 });
 
 module.exports = router;
