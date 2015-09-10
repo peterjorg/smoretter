@@ -9,14 +9,29 @@ var http = require('http');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var login = require('./routes/login');
-var redis = require('redis');
+var register = require('./routes/register');
 
+var redis = require('redis');
 var redisClient = redis.createClient('6379', 'redis');
 
 redisClient.on('connect', function() {
-  console.log('redis connected.');  
+  console.log('Redis connected.');  
 });
 
+var mongoose = require('mongoose');
+
+mongoose.connect('mongodb://mongo:27017', function(err, db) {
+  if (err) {
+    console.log("ERROR: " + err);
+  }
+});
+
+mongoose.connection.on('open', function (err, user) {
+  mongoose.connection.db.collection("UsersCollection", function (err, users) {
+    if (err) console.log("collection ERR" + err);
+  });
+});
+  
 var app = express();
 
 // Set it here, so we can read it from routes files.
@@ -29,14 +44,15 @@ app.set('view engine', 'jade');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
 app.use('/login', login);
+app.use('/register', register);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -44,6 +60,7 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
 
 // error handlers
 
