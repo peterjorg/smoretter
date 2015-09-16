@@ -1,0 +1,17 @@
+# Run "docker-compose --file DevDocker-compose.yml up -d" to bring up the dev environment.
+redis:
+ image: redis
+ 
+mongo: 
+  image: mongo
+ 
+demoappdev: 
+ dockerfile: DevDockerfile
+ build: .
+ volumes: 
+  - .:/src
+ links: 
+  - redis
+  - mongo
+ ports:
+  - "80:3000"
