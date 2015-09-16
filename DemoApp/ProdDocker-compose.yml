@@ -1,0 +1,15 @@
+# Run "docker-compose --file ProdDocker-compose.yml up -d" to bring up the prod environment.
+redis:
+ image: redis
+ 
+mongo: 
+  image: mongo
+ 
+demoappdev: 
+ dockerfile: ProdDockerfile
+ build: .
+ links: 
+  - redis 
+  - mongo
+ ports:
+  - "80:3000"

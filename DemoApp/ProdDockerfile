@@ -9,11 +9,12 @@ RUN mkdir /src
 # Install nodemon. 
 RUN npm install -g nodemon 
 
-# Set the working (current) directory to /src
-WORKDIR /src/DemoApp
+ADD . /src
 
 # Expose the port 3000 (this is where our NodeJS server runs.)
 EXPOSE 3000
 
+WORKDIR /src
+
 # Run nodemon to monitor for app changes. 
-CMD nodemon app.js 
+CMD ["nodemon"]
