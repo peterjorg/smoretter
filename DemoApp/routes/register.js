@@ -1,30 +1,10 @@
 var express = require('express');
+var User = require('../models/user');
 var router = express.Router();
-
-var mongoose = require('mongoose');
-
-mongoose.connect('mongodb://mongo:27017', function(err, db) {
-  if (err) {
-    console.log("ERROR: " + err);
-  }
-});
 
 router.get('/', function(req, res, next) {
     res.render('register', { title: 'Register' });
 });
-
-var userSchema = new mongoose.Schema({
-      name: {
-        first: String,
-        last: { type: String, trim: true }
-      },
-      username: { type: String, trim: true },
-      email: { type: String, trim: true },
-      password: {type: String },
-    });
-    
-var User = mongoose.model('UsersCollection', userSchema);
-  
 
 router.post('/', function(req,res,next) {
   
