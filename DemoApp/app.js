@@ -5,38 +5,20 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var http = require('http');
+var db = require('./mongoDb.js');
+var redisClient = require('./redis.js');
 
+
+// Routes
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var login = require('./routes/login');
 var register = require('./routes/register');
 
-var redis = require('redis');
-var redisClient = redis.createClient('6379', 'redis');
-
-redisClient.on('connect', function() {
-  console.log('Redis connected.');  
-});
-
-// ------ mongoose stuff  
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var mongooseUriString = 'mongodb://mongo:27017';
-
-mongoose.connect(mongooseUriString, function(err, db) {
-  if (err) {
-    console.log("ERROR connecting to: " + mongooseUriString + ". Error: " + err);
-  } else {
-    console.log("CONNECTED to: " + mongooseUriString);
-  }
-});
-
-mongoose.connection.on('open', function (err, user) {
-  mongoose.connection.db.collection("UsersCollection", function (err, users) {
-    if (err) console.log("collection ERR" + err);
-  });
-});
-// ------ end mongoose stuff 
+// API 
+var api = require('./api.js');
+routes.post('/register', api.registerUser);
+routes.get('/users', api.showUsers);
  
 var app = express();
 
