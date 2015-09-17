@@ -2,4 +2,7 @@ extends layout
 
 block content
   div.container
-    h1 All users
+    h1 Show all users
+    ul
+      - for u in users
+        li= u.name.first + " " + u.name.last  
