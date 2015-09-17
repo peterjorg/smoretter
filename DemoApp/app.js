@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var http = require('http');
 var db = require('./mongoDb.js');
 var redisClient = require('./redis.js');
-
+var packagejson = require('./package.json');
 
 // Routes
 var routes = require('./routes/index');
@@ -23,6 +23,7 @@ var app = express();
 
 // Set it here, so we can read it from routes files.
 app.set('redisClient', redisClient);
+app.set('appVersion', packagejson.version);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
