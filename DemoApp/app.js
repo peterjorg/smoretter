@@ -18,11 +18,16 @@ redisClient.on('connect', function() {
   console.log('Redis connected.');  
 });
 
+// ------ mongoose stuff  
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+var mongooseUriString = 'mongodb://mongo:27017';
 
-mongoose.connect('mongodb://mongo:27017', function(err, db) {
+mongoose.connect(mongooseUriString, function(err, db) {
   if (err) {
-    console.log("ERROR: " + err);
+    console.log("ERROR connecting to: " + mongooseUriString + ". Error: " + err);
+  } else {
+    console.log("CONNECTED to: " + mongooseUriString);
   }
 });
 
@@ -31,7 +36,8 @@ mongoose.connection.on('open', function (err, user) {
     if (err) console.log("collection ERR" + err);
   });
 });
-  
+// ------ end mongoose stuff 
+ 
 var app = express();
 
 // Set it here, so we can read it from routes files.
