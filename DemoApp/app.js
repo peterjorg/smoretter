@@ -5,9 +5,16 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var http = require('http');
+var session = require('express-session');
+var methodOverride = require('method-override')
+
 var db = require('./mongoDb.js');
 var redisClient = require('./redis.js');
 var packagejson = require('./package.json');
+
+// Passport
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
 // Routes
 var routes = require('./routes/index');
@@ -34,12 +41,53 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(methodOverride());
 app.use(cookieParser());
+app.use(session({
+  secret: 'secret thing',
+  saveUninitialized: false, 
+  resave: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/login', login);
 app.use('/register', register);
+
+// Passport configuration
+var User = require('./models/user.js');
+
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+routes.post('/login', function (req, res, next) {
+  passport.authenticate('local', function (err, user, info) {  
+   // if any problems exist, error out
+            if (err) {
+                return next(err);
+            }
+            if (!user) {
+                return res.send(500, info.message);
+            }
+
+            // log in the user
+            req.logIn(user, function(err) {
+                if (err) {
+                    return next(err);
+                }
+                // once login succeeded, return the user and session created 201
+                return res.redirect('/'); //, { user : user} );
+            });
+  })(req, res,next); 
+});
+
+routes.get('/logout', function(req, res) {
+      req.logout();
+      res.redirect('/');
+  });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -47,7 +95,6 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
-
 
 // error handlers
 

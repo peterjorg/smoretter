@@ -4,7 +4,11 @@ nav.navbar.navbar-default(role="navigation")
             ul.nav.navbar-nav
                 li.active
                     a(href='/') Home
-                li
-                    a(href='/register') Register
-                li
-                    a(href='/login') Login
+                if user
+                 li 
+                  a(href='/logout') Logout 
+                else
+                 li
+                  a(href='/login') Login
+                 li
+                  a(href='/register') Register
