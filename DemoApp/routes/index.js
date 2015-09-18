@@ -8,7 +8,8 @@ router.get('/', function(req, res, next) {
   
   redisClient.incr('counter', function(err, counter) {
     if(err) return next(err);
-    res.render('index', { viewCount: counter, appVersion: version });
+    
+    res.render('index', { viewCount: counter, appVersion: version, user: req.user });
   });
 });
 

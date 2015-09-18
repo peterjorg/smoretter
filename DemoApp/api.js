@@ -1,17 +1,15 @@
 // API controller
-
 var User = require("./models/user.js");
 
 exports.registerUser = function (req, res, next) {
-	var user = new User({
-		name: { first: req.body.Firstname, last: req.body.Lastname },
-		email: req.body.Email,
-		username: req.body.Username, 
-		password: req.body.Password
+	User.register(new User({
+		username: req.body.username}), req.body.password, function (err, u) {
+			if (err) {
+				return res.render("register", { info: "Sorry :( Username already exists."});
+			}
 		});
 		
-	user.save();
-	res.redirect('/');
+	res.render('index', { user: req.user });
 }
 
 exports.showUsers = function (req, res, next) { 

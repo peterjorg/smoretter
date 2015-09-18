@@ -5,4 +5,4 @@ block content
     h1 Show all users
     ul
       - for u in users
-        li= u.name.first + " " + u.name.last  
+        li= u.name.first + " " + u.name.last  + " (" + u.username + ", " + u.password + ")"
