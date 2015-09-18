@@ -1,0 +1,48 @@
+
+redis:
+ image: redis
+ 
+mongo: 
+  image: mongo
+ 
+nginx:
+ build: ./nginx
+ links:
+  - demoappdev_node1:demoappdev_node1
+  - demoappdev_node2:demoappdev_node2
+  - demoappdev_node3:demoappdev_node3
+ ports:
+  - "80:80"
+
+demoappdev_node1: 
+ dockerfile: DevDockerfile
+ build: .
+ volumes: 
+  - .:/src
+ links: 
+  - redis
+  - mongo
+ ports:
+  - "3000"
+  
+demoappdev_node2: 
+ dockerfile: DevDockerfile
+ build: .
+ volumes: 
+  - .:/src
+ links: 
+  - redis
+  - mongo
+ ports:
+  - "3000"
+   
+demoappdev_node3: 
+ dockerfile: DevDockerfile
+ build: .
+ volumes: 
+  - .:/src
+ links: 
+  - redis
+  - mongo
+ ports:
+  - "3000"
