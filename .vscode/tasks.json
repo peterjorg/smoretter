@@ -1,0 +1,33 @@
+{
+    "version": "0.1.0",
+    "command": "bash",
+    "isShellCommand": true,
+    "args": ["-c"],
+    "tasks": [
+        {
+            "taskName": "Docker: List all containers",
+            "args": ["dockerscript.sh listContainers"],
+            "suppressTaskName": false
+        },
+         {
+            "taskName": "Docker: List all images",
+            "args": ["dockerscript.sh listImages"],
+            "suppressTaskName": false
+        },
+        {
+            "taskName": "Docker: Delete all containers",
+            "args": ["dockerscript.sh deleteContainers"],
+            "suppressTaskName": false
+        },
+        {
+            "taskName": "Docker: Compose Dev environment",
+            "args": ["dockerscript.sh compose"],
+            "suppressTaskName": false
+        },
+        {
+            "taskName": "Docker: Create Prod Environment and Deploy",
+            "args": ["dockerscript.sh deployProd"],
+            "suppressTaskName": false
+        } 
+   ]
+}
