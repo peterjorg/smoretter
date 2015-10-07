@@ -6,27 +6,37 @@
     "tasks": [
         {
             "taskName": "Docker: List all containers",
-            "args": ["dockerscript.sh listContainers"],
+            "args": [".vscode/dockerscript.sh listContainers"],
             "suppressTaskName": false
         },
          {
             "taskName": "Docker: List all images",
-            "args": ["dockerscript.sh listImages"],
+            "args": [".vscode/dockerscript.sh listImages"],
             "suppressTaskName": false
         },
         {
-            "taskName": "Docker: Delete all containers",
-            "args": ["dockerscript.sh deleteContainers"],
+            "taskName": "Docker: Clean-up images and containers",
+            "args": [".vscode/dockerscript.sh cleanupContainersAndImages"],
+            "suppressTaskName": false
+        },
+        {
+            "taskName": "Docker: Stop/delete all containers and images",
+            "args": [".vscode/dockerscript.sh deleteContainersAndImages"],
+            "suppressTaskName": false
+        },
+        {
+            "taskName": "Docker: Build image",
+            "args": [".vscode/dockerscript.sh buildImage"],
             "suppressTaskName": false
         },
         {
             "taskName": "Docker: Compose Dev environment",
-            "args": ["dockerscript.sh compose"],
+            "args": [".vscode/dockerscript.sh compose"],
             "suppressTaskName": false
         },
         {
             "taskName": "Docker: Create Prod Environment and Deploy",
-            "args": ["dockerscript.sh deployProd"],
+            "args": [".vscode/dockerscript.sh deployProd"],
             "suppressTaskName": false
         } 
    ]
